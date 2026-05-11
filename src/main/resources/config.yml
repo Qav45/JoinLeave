@@ -1,0 +1,43 @@
+# ─────────────────────────────────────────────────
+#  JoinLeave Configuration
+#  Use & for color codes.  Use &#RRGGBB for hex colors.
+#  %player% is replaced by PlaceholderAPI (or manually if PAPI is absent).
+# ─────────────────────────────────────────────────
+
+# Message broadcast to all players when someone joins
+Join: '&7[&a+&7] &a%player%'
+
+# Message broadcast to all players when someone leaves
+Leave: '&7[&a-&7] &7%player%'
+
+# Broadcast a special message on a player's very first join
+First-Join-Message: true
+First-Join: '&7[&a+&7] &a%player% &7welcome to the server! use &a/welcome'
+
+# Server language tag (reserved for future locale support)
+Language: EN
+
+# Base command prefix (must match the command name in plugin.yml)
+CommandPrefix: Join-Leave
+
+# Send a title screen to the joining player
+Title-Onjoin: true
+
+# When true, players with the 'hide.players' permission have their
+# join/leave chat messages suppressed (their title still shows to themselves)
+Hide-Players-With-Perms: false
+
+# Suppress ALL join and leave messages
+Disable-Join-LeaveMessage: false
+
+# Suppress only leave messages
+Disable-Leave-Message: false
+
+# Launch fireworks when a player joins (reserved — not yet implemented)
+Fireworks-onJoin: false
+
+# Play a sound when a player joins (reserved — not yet implemented)
+Sound-onJoin: false
+
+# Use Essentials nickname for display (reserved — not yet implemented)
+Use-Essentials: false

@@ -1,0 +1,36 @@
+name: JoinLeave
+version: '${project.version}'
+main: com.instellar.joinleave.JoinLeavePlugin
+api-version: '1.21'
+description: Manages player join/leave messages, first-join messages, and join titles.
+authors:
+  - Instellar
+
+soft-depend:
+  - PlaceholderAPI
+
+commands:
+  joinleave:
+    description: JoinLeave plugin management command.
+    usage: /<command> <reload|setjoin|setleave|resetjoin|resetleave>
+    aliases:
+      - join-leave
+
+permissions:
+  joinleave.reload:
+    description: Allows the sender to reload the JoinLeave configuration.
+    default: op
+
+  joinleave.use:
+    description: Allows the use of the /joinleave command.
+    default: op
+
+  joinleave.custom:
+    description: Allows a player to set their own custom join and leave messages.
+    default: false
+
+  hide.players:
+    description: >
+      When Hide-Players-With-Perms is enabled in config, players with this
+      permission will have their join/leave messages suppressed.
+    default: false

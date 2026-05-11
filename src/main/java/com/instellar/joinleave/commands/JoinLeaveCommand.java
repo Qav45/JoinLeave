@@ -11,9 +11,12 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Arrays;
 import java.util.List;
 
 public final class JoinLeaveCommand implements CommandExecutor, TabCompleter {
+
+    private static final int MAX_MESSAGE_LENGTH = 256;
 
     private final JoinLeavePlugin plugin;
 
@@ -34,16 +37,14 @@ public final class JoinLeaveCommand implements CommandExecutor, TabCompleter {
         }
 
         switch (args[0].toLowerCase()) {
-            case "reload" -> handleReload(sender, label);
-            case "setjoin" -> handleSet(sender, label, args, true);
-            case "setleave" -> handleSet(sender, label, args, false);
-            case "resetjoin" -> handleReset(sender, true);
+            case "reload"     -> handleReload(sender, label);
+            case "setjoin"    -> handleSet(sender, label, args, true);
+            case "setleave"   -> handleSet(sender, label, args, false);
+            case "resetjoin"  -> handleReset(sender, true);
             case "resetleave" -> handleReset(sender, false);
-            default -> {
-                sender.sendMessage(Component.text(
-                        "Unknown sub-command. ", NamedTextColor.RED
-                ).append(usage(label)));
-            }
+            default -> sender.sendMessage(Component.text(
+                    "Unknown sub-command. ", NamedTextColor.RED
+            ).append(usage(label)));
         }
         return true;
     }
@@ -77,12 +78,31 @@ public final class JoinLeaveCommand implements CommandExecutor, TabCompleter {
         if (args.length < 2) {
             String sub = isJoin ? "setjoin" : "setleave";
             player.sendMessage(Component.text(
-                    "Usage: /" + label + " " + sub + " <message>", NamedTextColor.YELLOW
+                    "Usage: /" + label + " " + sub + " <message>  (must include %player%, max "
+                            + MAX_MESSAGE_LENGTH + " chars, supports & color codes)",
+                    NamedTextColor.YELLOW
             ));
             return;
         }
 
-        String message = String.join(" ", java.util.Arrays.copyOfRange(args, 1, args.length));
+        String message = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
+
+        if (!message.contains("%player%")) {
+            player.sendMessage(Component.text(
+                    "Your message must include %player% so the player's name appears.",
+                    NamedTextColor.RED
+            ));
+            return;
+        }
+
+        if (message.length() > MAX_MESSAGE_LENGTH) {
+            player.sendMessage(Component.text(
+                    "Your message is too long (" + message.length() + "/" + MAX_MESSAGE_LENGTH + " chars).",
+                    NamedTextColor.RED
+            ));
+            return;
+        }
+
         if (isJoin) {
             plugin.getDataManager().setCustomJoinMessage(player.getUniqueId(), message);
             player.sendMessage(Component.text(
